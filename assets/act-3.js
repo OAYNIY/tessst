@@ -2299,7 +2299,7 @@ const PHASES = ['anan','words','heat','ask'];
 const EL = id => document.getElementById(id);
 const scene = document.getElementById('scene-3-5');
 const bh = scene.querySelector('.bridge-hint');
-let cur = -1, dmTimer = null, dmRunning = false;
+let cur = -1, dmTimer = null, dmRunning = false, phaseReadyAt = 0;
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
 /* ---------- ph0 安安 ---------- */
@@ -2563,6 +2563,7 @@ function endDanmaku(hard){
 /* ---------- 分步 ---------- */
 function showPhase(i){
   cur = i;
+  phaseReadyAt = Date.now() + 1900;
   PHASES.forEach(p=>{ const e=EL('ph-'+p); if(e) e.classList.toggle('on', p===PHASES[i]); });
   gsap.set(bh,{opacity:0});
   const ph = EL('ph-'+PHASES[i]);
@@ -2773,14 +2774,25 @@ EL('a35RecBox').addEventListener('click', function(e){
 });
 
 let _touchAdvancedAt = 0;
-scene.addEventListener('click', ()=>{
-  if (Date.now() - _touchAdvancedAt < 450) return;
-  if(EL('a35RecBox').classList.contains('on')) return;
-  if(cur>=0) next();
-});
-scene.addEventListener('pointerup', (e)=>{
+let _touchStart = null;
+scene.addEventListener('pointerdown', (e)=>{
   if (e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
+  _touchStart = { x: e.clientX, y: e.clientY, target: e.target };
+});
+scene.addEventListener('pointercancel', ()=>{ _touchStart = null; });
+scene.addEventListener('click', (e)=>{
+  if (Date.now() - _touchAdvancedAt < 500) return;
+  if (Date.now() < phaseReadyAt) return;
   if(EL('a35RecBox').classList.contains('on')) return;
+  const touchStart = _touchStart;
+  _touchStart = null;
+  const target = e.target;
+  if (target && target.closest && target.closest('button, select, .a35-sel, .rb-list, .n-wrap, .a35-recbox')) return;
+  if (touchStart) {
+    const dx = e.clientX - touchStart.x;
+    const dy = e.clientY - touchStart.y;
+    if (Math.hypot(dx, dy) > 18) return;
+  }
   if(cur>=0){ _touchAdvancedAt = Date.now(); next(); }
 });
 

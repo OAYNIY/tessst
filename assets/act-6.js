@@ -210,8 +210,8 @@ function cancelAnimationFrame(h){ return __rafCancelReal(h); }
     later(function(){
       ret.style.opacity='0';
       video.classList.add('after');
-      /* 相纸出片前先让相机退场，二者不再叠在同一张画面上。 */
-      gsap.to(cam,{opacity:0,y:CAM_UP-110,duration:.65,ease:'power2.inOut'});
+      /* 相机落到下方，相纸向上吐出；出片后机身继续留在画面里。 */
+      gsap.to(cam,{opacity:1,y:0,duration:1.0,ease:'power2.inOut'});
       gsap.to(card,{opacity:1,y:0,duration:1.25,delay:.16,ease:'power2.out'});
       photo.style.opacity='1';
       requestAnimationFrame(function(){requestAnimationFrame(function(){photo.classList.add('dev')})});

@@ -1157,7 +1157,8 @@ function s5Seg4(){
   S5.emitSide='both';
   S5.emitTarget=8;
   var YEAR_MED=[['2020','11s'],['2021','13s'],['2022','10s'],['2023','10s'],['2024','8s'],['2025','8s'],['2026','11s']];
-  var title=s5Txt({text:'回复中位数 · 8–13 秒（逐年）',x:375,y:585,color:'rgba(74,62,58,0.7)',size:21});
+  var title=s5Txt({text:'回复中位数 · 8–13 秒（逐年）',x:375,y:585,color:'rgba(74,62,58,0.9)',size:21});
+  title.style.textShadow='0 0 14px #f7f1e8, 0 0 7px #f7f1e8';
   later(function(){ fadeIn(title,0.7); },2600);
   var medEls=[];
   var speedSummary=[];
@@ -1168,25 +1169,25 @@ function s5Seg4(){
     medEls.push(yl,sl);
     later(function(){ fadeIn(yl,0.5); fadeIn(sl,0.5,0.15); },3000+i*120);
   });
+  /* 第二个独立画面：中位数和摘要不再同屏。四行摘要作为一个整体上下居中。 */
   later(function(){
-    /* 先收起逐年数据，再单独呈现摘要，避免同一时序里上下叠字。 */
     medEls.forEach(function(el){ fadeOut(el,0.55); });
-    var n=s5Txt({text:'大多数消息，一分钟内回复 · 约 80%',x:375,y:760,color:'rgba(74,62,58,0.68)',size:23});
-    speedSummary.push(n); fadeIn(n,0.7,0.25);
-    later(function(){
-      var rows=[
-        ['逐年最快：2024 / 2025 年 · 8 秒',838],
-        ['逐年最慢：2021 年 · 13 秒',914],
-        ['其余年份：10–11 秒',990]
-      ];
-      rows.forEach(function(row,i){
-        var el=s5Txt({text:row[0],x:375,y:row[1],color:'rgba(74,62,58,0.5)',size:22});
-        speedSummary.push(el); fadeIn(el,0.6,i*0.22);
-      });
-    },850);
+    fadeOut(title,0.55);
   },7000);
   later(function(){
-    fadeOut(title,0.6);
+    var rows=[
+      ['大多数消息，一分钟内回复 · 约 80%',510],
+      ['逐年最快：2024 / 2025 年 · 8 秒',600],
+      ['逐年最慢：2021 年 · 13 秒',690],
+      ['其余年份：10–11 秒',780]
+    ];
+    rows.forEach(function(row,i){
+      var el=s5Txt({text:row[0],x:375,y:row[1],color:'rgba(74,62,58,0.9)',size:i===0?23:22});
+      el.style.textShadow='0 0 14px #f7f1e8, 0 0 7px #f7f1e8';
+      speedSummary.push(el); fadeIn(el,0.65,i*0.18);
+    });
+  },7900);
+  later(function(){
     speedSummary.forEach(function(el){ fadeOut(el,0.6); });
   },11600);
   later(function(){

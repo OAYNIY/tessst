@@ -1052,6 +1052,7 @@ sceneInit[2] = function() {
 sceneInit[3] = function() {
  const envImg = document.getElementById('envelope-img');
   const envImgAlt = document.getElementById('envelope-img-alt');
+  const frontCover = document.getElementById('envelope-front');
   const crack = document.getElementById('wax-crack');
   const waxSeal = document.getElementById('wax-14');
   const frost = document.getElementById('frost-mask');
@@ -1456,9 +1457,9 @@ sceneInit[3] = function() {
   // 分镜 03 开信：信封各状态保持在原位置，仅替换图片与背景偏移。
   const STATES = {
     noseal:   { img: 'assets/第一幕-启封/没有火漆印的闭合信封.webp', bg: '-1px -50.5px', x: 50, y: 50, s: 540 },
-    withcard: { img: 'assets/第一幕-启封/打开的有卡纸的信封.webp',   bg: '-1px -51.3px', x: 50, y: 50, s: 540 },
-    half:     { img: 'assets/第一幕-启封/卡纸抽出了一半.webp',        bg: '-1px -57.4px', x: 50, y: 50, s: 540 },
-    nocard:   { img: 'assets/第一幕-启封/打开的无卡纸的信封.webp',    bg: '-1px -57.4px', x: 50, y: 50, s: 540 }
+    withcard: { img: 'assets/第一幕-启封/打开的有卡纸的信封.webp',   bg: '-1px -50.5px', x: 50, y: 50, s: 540 },
+    half:     { img: 'assets/第一幕-启封/卡纸抽出了一半.webp',        bg: '-1px -50.5px', x: 50, y: 50, s: 540 },
+    nocard:   { img: 'assets/第一幕-启封/打开的无卡纸的信封.webp',    bg: '-1px -50.5px', x: 50, y: 50, s: 540 }
   };
   function placeEnvOn(target, key) {
     const st = STATES[key];
@@ -1510,13 +1511,12 @@ sceneInit[3] = function() {
       .add(swapEnv('withcard'))
       .to({}, { duration: 0.5 })
       // ⑤ 卡纸抽出了一半 + 卡纸（同时出现）
-      .add(() => { gsap.set(card, { opacity: 1 }); })
       .add(swapEnv('half'))
       .to({}, { duration: 0.35 })
       // ⑥ 卡纸斜着抽出，信封变成空的
-      .to(card, { rotation: 14, x: -20, y: -28, duration: 0.6, ease: 'power2.inOut' })
+      .add(() => { gsap.set(card, { opacity: 1 }); gsap.set(frontCover, { opacity: 1 }); })
       .add(swapEnv('nocard'))
-      .to(card, { rotation: 0, x: 0, y: 0, duration: 0.55, ease: 'power2.out' })
+      .to(card, { rotation: 14, x: -20, y: -28, duration: 0.6, ease: 'power2.inOut' })
       .call(function() { goToScene(4, { solidReveal: true }); });
   }
 
@@ -1531,18 +1531,19 @@ sceneInit[3] = function() {
   }
 
   // 重置 1.4。拨盘每次从一个非 0 数字附近开始，避免一进场自动对上第一位。
-  gsap.killTweensOf([paperLock, lockShackle, lockBody, dial, crack, waxSeal, envImg, envImgAlt, card, frost, hint, burnScreen, burnQuote]);
+  gsap.killTweensOf([paperLock, lockShackle, lockBody, dial, crack, waxSeal, envImg, envImgAlt, frontCover, card, frost, hint, burnScreen, burnQuote]);
   gsap.killTweensOf(motion);
   gsap.set(envImg, { left: '50%', top: '50%', width: 540, height: 540, xPercent: -50, yPercent: -50, opacity: 1, scale: 1 });
     envImg.style.backgroundImage = "url('assets/第一幕-启封/完整信封.webp')";
-  envImg.style.backgroundPosition = '-1px -47px';
+  envImg.style.backgroundPosition = '-1px -50.5px';
   envImg.style.backgroundSize = 'contain';
   envImg.style.backgroundRepeat = 'no-repeat';
   placeEnvOn(envImgAlt, 'noseal');
   gsap.set(envImgAlt, { opacity: 0, scale: 1 });
+  gsap.set(frontCover, { opacity: 0 });
   gsap.set(waxSeal, { opacity: 0, x: 0, y: 0, scale: 1 });
   gsap.set(crack, { left: '50.1%', top: '49.7%', width: 92, height: 92, xPercent: -50, yPercent: -50, opacity: 0, scale: 0.4, rotation: 12 });
-  gsap.set(card, { left: '52.13%', top: '43.25%', width: 444, height: 444, rotation: 14, xPercent: -50, yPercent: -50, opacity: 0, x: 0, y: 0 });
+  gsap.set(card, { left: '50.13%', top: '45.05%', width: 444, height: 444, rotation: 14, xPercent: -50, yPercent: -50, opacity: 0, x: 0, y: 0 });
   gsap.set(burn, { opacity: 0 });
   gsap.set(envImg, { filter: 'none' });
   gsap.set(burnScreen, { opacity: 0 });

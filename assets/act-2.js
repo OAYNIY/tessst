@@ -623,7 +623,7 @@ sceneInit[0] = function() {
 
   // 空窗户淡入
   gsap.to(winLayer, { opacity: 1, duration: 1.2, delay: 0.3, ease: 'power2.out' });
-  // 这扇窗要左右滑动才会变天：圆圈里两个箭头来回指
+  // 窗边提示出现后仍可左右滑动切换天气。
   const swipeHint = document.getElementById('swipe-hint-2-1');
   if (swipeHint) setTimeout(() => swipeHint.classList.add('on'), 1200);
 };

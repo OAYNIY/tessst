@@ -181,6 +181,25 @@ html, body {
   display: block;
 }
 #volume-toggle:active { transform: scale(0.92); }
+#home-toggle {
+  position: absolute;
+  top: var(--safe-top);
+  right: 116px;
+  width: 80px; height: 80px;
+  border: none;
+  cursor: pointer;
+  z-index: 200;
+  padding: 0;
+  background: none;
+  transition: transform 0.15s var(--ease-out);
+}
+#home-toggle img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  display: block;
+}
+#home-toggle:active { transform: scale(0.92); }
 /*  ← 这里由构建脚本注入第一幕的进度条 / 静音键样式 */
 
 
@@ -804,6 +823,13 @@ html:not(.dbg-on) #stage { cursor: default !important; }
   will-change: opacity, transform;
 }
 #act-1 .envelope-img.alt { z-index: 2; opacity: 0; }
+#act-1 .envelope-front {
+  position: absolute; left: 50%; top: 50%; width: 540px; height: 540px;
+  transform: translate(-50%, -50%);
+  background: url('assets/第一幕-启封/打开的无卡纸的信封.webp') -1px -50.5px / contain no-repeat;
+  clip-path: polygon(0 27%, 50% 50%, 100% 27%, 100% 100%, 0 100%);
+  opacity: 0; z-index: 5; pointer-events: none;
+}
 #act-1 .wax-seal {
   position: absolute;
   left: 50.1%; top: 49.7%;
@@ -1681,6 +1707,13 @@ html:not(.dbg-on) #stage { cursor: default !important; }
   will-change: opacity, transform;
 }
 #act-1 .envelope-img.alt { z-index: 2; opacity: 0; }
+#act-1 .envelope-front {
+  position: absolute; left: 50%; top: 50%; width: 540px; height: 540px;
+  transform: translate(-50%, -50%);
+  background: url('assets/第一幕-启封/打开的无卡纸的信封.webp') -1px -50.5px / contain no-repeat;
+  clip-path: polygon(0 27%, 50% 50%, 100% 27%, 100% 100%, 0 100%);
+  opacity: 0; z-index: 5; pointer-events: none;
+}
 #act-1 .wax-seal {
   position: absolute;
   left: 50.1%; top: 49.7%;
@@ -2058,13 +2091,13 @@ html:not(.dbg-on) #stage { cursor: default !important; }
 }
 #act-1 .card-paper {
   position: absolute;
-  left: 52.13%; top: 43.18%;         /* 分镜坐标中心 (391,577)，与开信封素材中心对齐 */
+  left: 50.13%; top: 45.05%;
   width: 444px; height: 444px;        /* size 0.9251 → 480×0.9251 */
   transform: translate(-50%, -50%) rotate(14deg);
   background: url('assets/第一幕-启封/卡纸.webp') 0.1px -9.2px / contain no-repeat;
   filter: drop-shadow(0 10px 24px rgba(0,0,0,0.25));
   opacity: 0;
-  z-index: 6;
+  z-index: 4;
   pointer-events: none;
 }
 #act-1 #scene-1-5 { background: var(--paper); }
@@ -3057,6 +3090,13 @@ html:not(.dbg-on) #stage { cursor: default !important; }
   will-change: opacity, transform;
 }
 #act-1 .envelope-img.alt { z-index: 2; opacity: 0; }
+#act-1 .envelope-front {
+  position: absolute; left: 50%; top: 50%; width: 540px; height: 540px;
+  transform: translate(-50%, -50%);
+  background: url('assets/第一幕-启封/打开的无卡纸的信封.webp') -1px -50.5px / contain no-repeat;
+  clip-path: polygon(0 27%, 50% 50%, 100% 27%, 100% 100%, 0 100%);
+  opacity: 0; z-index: 5; pointer-events: none;
+}
 #act-1 .wax-seal {
   position: absolute;
   left: 50.1%; top: 49.7%;
@@ -3934,6 +3974,13 @@ html:not(.dbg-on) #stage { cursor: default !important; }
   will-change: opacity, transform;
 }
 #act-1 .envelope-img.alt { z-index: 2; opacity: 0; }
+#act-1 .envelope-front {
+  position: absolute; left: 50%; top: 50%; width: 540px; height: 540px;
+  transform: translate(-50%, -50%);
+  background: url('assets/第一幕-启封/打开的无卡纸的信封.webp') -1px -50.5px / contain no-repeat;
+  clip-path: polygon(0 27%, 50% 50%, 100% 27%, 100% 100%, 0 100%);
+  opacity: 0; z-index: 5; pointer-events: none;
+}
 #act-1 .wax-seal {
   position: absolute;
   left: 50.1%; top: 49.7%;
@@ -4311,13 +4358,13 @@ html:not(.dbg-on) #stage { cursor: default !important; }
 }
 #act-1 .card-paper {
   position: absolute;
-  left: 52.13%; top: 43.18%;         /* 分镜坐标中心 (391,577)，与开信封素材中心对齐 */
+  left: 50.13%; top: 45.05%;
   width: 444px; height: 444px;        /* size 0.9251 → 480×0.9251 */
   transform: translate(-50%, -50%) rotate(14deg);
   background: url('assets/第一幕-启封/卡纸.webp') 0.1px -9.2px / contain no-repeat;
   filter: drop-shadow(0 10px 24px rgba(0,0,0,0.25));
   opacity: 0;
-  z-index: 6;
+  z-index: 4;
   pointer-events: none;
 }
 #act-1 #scene-1-5 { background: var(--paper); }
@@ -12455,31 +12502,11 @@ html:not(.dbg-on) #stage { cursor: default !important; }
 #act-2 #scene-2-5 .weather-ref-art.title { left:165px; top:318px; width:420px; height:auto; }
 #act-2 #scene-2-5 .weather-ref-art.caption { left:175px; top:958px; width:360px; height:auto; }
 #act-2 .swipe-hint {
-  position: absolute; left: 50%; top: auto; bottom: 112px;
-  width: 300px; height: 112px; margin-left: -150px;
-  z-index: 20; pointer-events: none; opacity: 0;
+  position: absolute; left: 50%; bottom: 116px; transform: translateX(-50%);
+  width: 620px; z-index: 20; pointer-events: none; opacity: 0;
+  color: #766c6b; font: 25px/1.6 "Songti SC", serif; text-align: center;
 }
 #act-2 .swipe-hint.on { opacity: 1; transition: opacity .8s ease; }
-#act-2 .swipe-hint .sh-ring {
-  position: absolute; left: 45px; top: 10px; width: 210px; height: 86px;
-  border: 3px solid transparent; border-top-color: rgba(108,144,184,.78); border-bottom-color: rgba(108,144,184,.58);
-  border-radius: 50%;
-  box-shadow: 0 0 30px rgba(140,176,214,.35), inset 0 0 22px rgba(255,255,255,.5);
-  animation: a2-swipePulse 2.8s ease-in-out infinite;
-}
-#act-2 .swipe-hint .sh-arrow {
-  position: absolute; top: 30px; width: 36px; height: 42px;
-  color: rgba(92,128,170,.98); font: 46px/38px Georgia,serif; text-align: center;
-  text-shadow: 0 1px 4px rgba(140,176,214,.35);
-}
-#act-2 .swipe-hint .sh-arrow::before { display: block; }
-#act-2 .swipe-hint .sh-arrow.left { left: 4px;  animation: a2-swipeL 2.8s ease-in-out infinite; }
-#act-2 .swipe-hint .sh-arrow.left::before { content: '‹'; }
-#act-2 .swipe-hint .sh-arrow.right { right: 4px; animation: a2-swipeR 2.8s ease-in-out infinite; }
-#act-2 .swipe-hint .sh-arrow.right::before { content: '›'; }
-@keyframes a2-swipePulse { 0%,100% { transform: scale(.95); opacity: .62 } 50% { transform: scale(1.06); opacity: 1 } }
-@keyframes a2-swipeL { 0%,100% { transform: translateX(0) rotate(-45deg); opacity: .5 } 50% { transform: translateX(-10px) rotate(-45deg); opacity: 1 } }
-@keyframes a2-swipeR { 0%,100% { transform: translateX(0) rotate(135deg); opacity: .5 } 50% { transform: translateX(10px) rotate(135deg); opacity: 1 } }
 #act-2 .tap-ripple {
   position: absolute; z-index: 40; display: none; pointer-events: none;
   width: 150px; height: 150px; margin: -75px 0 0 -75px;
@@ -13532,6 +13559,7 @@ html:not(.dbg-on) #stage { cursor: default !important; }
 #act-3 #scene-3-5 .heat-lgd .hi i { width:13px; height:13px; border-radius:50%; display:inline-block; }
 #act-3 #scene-3-5 #ph-heat .a35-h { margin-bottom:4px; }
 #act-3 #scene-3-5 #ph-heat .a35-note { margin:28px auto 0; max-width:650px; text-align:center; }
+#act-3 #scene-3-5 #ph-heat .a35-final-note { margin-top:auto; margin-bottom:0; flex:none; }
 #act-3 #scene-3-5 .a35-qs { width:640px; text-align:left; margin-top:6px; }
 #act-3 #scene-3-5 .a35-q { padding:13px 18px; border-left:3px solid; border-radius:0 10px 10px 0;
     font-size:23px; line-height:1.62; margin-bottom:11px; background:rgba(255,252,246,.55); opacity:0; }
@@ -14324,9 +14352,11 @@ html:not(.dbg-on) #stage { cursor: default !important; }
   #egg-firework-hint{position:absolute;top:130px;left:0;width:750px;text-align:center;color:rgba(80,50,60,.8);font:26px serif;letter-spacing:4px;z-index:61;opacity:0;transition:opacity .8s}
 
   /* 闪回只保留歌词，不再把前幕真实场景切进来；统一深底提高可读性。 */
+  #flashback-layer.ext-on{background:#070910!important}
   #flashback-layer .ext-real-scene{display:none!important}
   #flashback-layer .ext-stage,
   #flashback-layer .ext-stage.earth,
+  #flashback-layer .ext-stage.heart,
   #flashback-layer .ext-stage.montage,
   #flashback-layer .ext-stage.opening,
   #flashback-layer .ext-stage.lyric-black,
@@ -14456,6 +14486,7 @@ html:not(.dbg-on) #stage { cursor: default !important; }
     <!-- 信封状态序列（分镜 03 开信 / 分镜v1 1.4，严格 size/position，各状态由 JS 精确重定位） -->
     <div class="envelope-img" id="envelope-img"></div>
     <div class="envelope-img alt" id="envelope-img-alt" aria-hidden="true"></div>
+    <div class="envelope-front" id="envelope-front" aria-hidden="true"></div>
     <div class="wax-seal" id="wax-14" aria-hidden="true"></div>
     <div class="wax-crack" id="wax-crack"></div>
     <div class="burn-overlay" id="burn-14"></div>
@@ -14585,6 +14616,7 @@ html:not(.dbg-on) #stage { cursor: default !important; }
   
   
   
+  
 
 
 
@@ -14605,7 +14637,7 @@ html:not(.dbg-on) #stage { cursor: default !important; }
 
 <section class="scene" id="scene-2-1" data-scene-key="scene-2-1">
     <div class="win-layer" id="win-2-1"></div>
-    <div class="swipe-hint" id="swipe-hint-2-1" aria-hidden="true"><span class="sh-ring"></span><span class="sh-arrow left"></span><span class="sh-arrow right"></span></div>  </section>
+    <div class="swipe-hint" id="swipe-hint-2-1" aria-hidden="true">轻轻划过窗边，陪我看看不同的天色。</div>  </section>
 <section class="scene" id="scene-2-2" data-scene-key="scene-2-2">
     <img class="weather-ref-art" src="assets/第二幕-烟火/参考/晴素材.png" alt="晴" />
     <img class="weather-ref-copy" src="assets/第二幕-烟火/天气文案/晴文案.png" alt="交通很拥挤 但天气晴 你说你最喜欢 沙滩" />
@@ -15142,9 +15174,8 @@ html:not(.dbg-on) #stage { cursor: default !important; }
       <div class="a35-h">每格是一个季度</div>
       <div class="heat-box" id="a35Heat"></div>
       <div class="heat-lgd" id="a35HeatLgd"></div>
-      <div class="a35-note" style="margin-top:22px"><b>最爱换称呼之人和最专一之人！</b></div>
       <div class="relay" id="a35Relay"></div>
-      <div class="a35-note" style="margin-top:12px">宝贝、贝贝、baby，还有安安——<br><b>这四个，小周一次都没跟着叫过。</b><br><br>小周只造了宝宝。江江 <b>45 天</b>后也开始叫了。</div>
+      <div class="a35-note a35-final-note"><b>最爱换出称呼之人和最专一之人！</b></div>
     </div>
 
     <!-- ph4 关心 -->
@@ -15268,6 +15299,9 @@ html:not(.dbg-on) #stage { cursor: default !important; }
   </div>
 <button id="volume-toggle" class="muted" aria-label="音量开关">
     <img id="vol-img" src="assets/分镜v1/素材/vol_muted.png" alt="音量">
+  </button>
+<button id="home-toggle" aria-label="回首页">
+    <img src="assets/分镜v1/素材/首页.png" alt="回首页">
   </button>
 <div id="debug" style="position:absolute;top:12px;left:12px;color:rgba(255,255,0,0.7);font-size:11px;z-index:999;font-family:monospace;pointer-events:none;">scene:0</div>
 <div id="flashback-layer" aria-hidden="true"></div>
@@ -15702,6 +15736,10 @@ html:not(.dbg-on) #stage { cursor: default !important; }
   function playElement(el, opts) {
     opts = opts || {};
     var rec = guestOf(el);
+    stopAllMusic(opts.fade);
+    guests.forEach(function (other) {
+      if (other.el !== el && !other.el.paused) stopElement(other.el, { fade: opts.fade, reset: true });
+    });
     if (typeof opts.gain === 'number') rec.gain = opts.gain;
     el.muted = !soundOn;
     if (opts.restart !== false) { try { el.currentTime = 0; } catch (e) {} }
@@ -16341,6 +16379,13 @@ html:not(.dbg-on) #stage { cursor: default !important; }
     }
   };
 
+  var homeBtn = document.getElementById('home-toggle');
+  if (homeBtn) homeBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (window.App && window.App.goAct) window.App.goAct(1, 0);
+  });
+
   // 对外暴露舞台尺寸，方便各幕读取
   window.App.DESIGN_W = DESIGN_W;
   window.App.DESIGN_H = DESIGN_H;
@@ -16376,7 +16421,7 @@ html:not(.dbg-on) #stage { cursor: default !important; }
     [76.24,'window','gold','风尘仆仆我会化作  天边的晚霞'],
     [79.80,'window',['blue'],'啦啦啦啦 我与你同在啊'],[87.00,'window',['pink'],'啦啦啦啦 我与你同在啊'],[94.14,'window',['gold'],'啦啦啦啦 我与你同在啊']
   ];
-  function lyricMarkup(x){var lines=x[3].split('\n'), colors=Array.isArray(x[2])?x[2]:lines.map(function(){return x[2];});return lines.map(function(line,i){return '<span class="'+(colors[i]||colors[0])+'">'+line+'</span>';}).join('<br>');}
+  function lyricMarkup(x){var lines=x[3].split('\n');if(lines.length===1&&Array.from(lines[0].replace(/\s/g,'')).length>10&&lines[0].indexOf(' ')>=0)lines=lines[0].trim().split(/\s+/);var colors=Array.isArray(x[2])?x[2]:lines.map(function(){return x[2];});return lines.map(function(line,i){return '<span class="'+(colors[i]||colors[0])+'">'+line+'</span>';}).join('<br>');}
   layer.innerHTML='<audio id="ext-song" preload="auto" src="assets/easter-egg/世界上的另一个我-闪回段.wav"></audio><div class="ext-real-scene" id="ext-real-scene"></div>'+lyrics.map(function(x){return '<div class="ext-stage '+x[1]+'" data-from="'+x[0]+'"><div class="ext-lyric">'+lyricMarkup(x)+'</div></div>';}).join('')+
     '<div class="ext-gift"><div class="ext-gift-box" role="button" aria-label="打开礼物盒"></div><div class="ext-gift-hint">打开这份礼物</div></div>'+ 
     '<div class="ext-fireworks"><i class="ext-spark"></i><i class="ext-spark"></i><i class="ext-spark"></i><i class="ext-spark"></i></div>';
@@ -16505,7 +16550,7 @@ if(new URLSearchParams(location.search).get('autoflash')==='1')setTimeout(begin,
     // 到这一句（「而真正的彩蛋即将出现！」）音乐就该停了：闪回曲一律收声、回到 0 秒
     window.__showEggPrelude=function(){var song=document.getElementById('ext-song');if(song){try{song.pause();song.currentTime=0;song.volume=0;}catch(e){}}releaseMusic();document.getElementById('flashback-layer').classList.remove('ext-on');layer.classList.add('egg-on');prelude.classList.add('on');setTimeout(function(){prelude.classList.remove('on');if(window.__showRealEgg)window.__showRealEgg();},2400);};
     window.__showMemoryScroll=function(){releaseMusic();stopEggMusic();ripple.classList.remove('on');document.getElementById('stage').classList.remove('flashback-active');document.getElementById('flashback-layer').classList.remove('ext-on');layer.classList.add('egg-on');prelude.classList.remove('on');ending.classList.remove('on');next.classList.remove('on');returnBtn.classList.add('on');scroll.classList.add('on');requestAnimationFrame(function(){requestAnimationFrame(function(){scroll.classList.add('open');});});};
-    var original=window.__showRealEgg;window.__showRealEgg=function(){prelude.classList.remove('on');ending.classList.remove('on');scroll.classList.remove('on','open');next.classList.remove('on');returnBtn.classList.remove('on');original();};
+    var original=window.__showRealEgg;window.__showRealEgg=function(){var song=document.getElementById('ext-song');if(song){if(window.App&&App.music)App.music.stop(song,{fade:0,reset:true});else{song.pause();song.currentTime=0;}}prelude.classList.remove('on');ending.classList.remove('on');scroll.classList.remove('on','open');next.classList.remove('on');returnBtn.classList.remove('on');original();};
     album.addEventListener('click',function(){if(album.classList.contains('egg-fw-ready')){ripple.classList.remove('on');setTimeout(function(){next.classList.add('on');},1800);}},{once:false});
     // 点「继续」进 THE END：生日蜡烛当场收声（淡出）
     next.addEventListener('click',function(e){e.stopPropagation();stopEggMusic();next.classList.remove('on');ending.classList.add('on');setTimeout(function(){ending.classList.remove('on');returnBtn.classList.add('on');scroll.classList.add('on');requestAnimationFrame(function(){requestAnimationFrame(function(){scroll.classList.add('open');});});},1900);});
