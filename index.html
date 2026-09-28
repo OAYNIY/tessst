@@ -183,6 +183,7 @@ html, body {
 #volume-toggle:active { transform: scale(0.92); }
 #home-toggle {
   position: absolute;
+  display: none;
   top: var(--safe-top);
   right: 116px;
   width: 80px; height: 80px;
@@ -193,6 +194,7 @@ html, body {
   background: none;
   transition: transform 0.15s var(--ease-out);
 }
+#home-toggle.unlocked { display: block; }
 #home-toggle img {
   width: 100%; height: 100%;
   object-fit: contain;
@@ -14379,8 +14381,6 @@ html:not(.dbg-on) #stage { cursor: default !important; }
   .egg-end-title{color:#604b43;font:58px/1.2 Georgia,serif;letter-spacing:12px;animation:eggTextIn 1.1s ease both}
   #egg-continue{position:absolute;left:50%;bottom:96px;z-index:80;display:none;transform:translateX(-50%);border:1px solid rgba(110,75,65,.3);background:rgba(255,250,240,.92);color:#634c45;padding:14px 34px;border-radius:999px;font:22px serif;letter-spacing:5px;box-shadow:0 7px 22px rgba(80,50,45,.14)}
   #egg-continue.on{display:block;animation:eggTextIn .7s ease both}
-  #memory-return{position:absolute;right:82px;top:42px;z-index:95;display:none;width:46px;height:46px;border:1px solid rgba(110,75,65,.34);border-radius:50%;background:rgba(255,250,240,.9);color:#8a654d;font:24px/42px Georgia,serif;cursor:pointer;box-shadow:0 5px 14px rgba(80,50,45,.12)}
-  #memory-return.on{display:block;animation:eggTextIn .7s ease both}
   .memory-scroll-body{position:relative;width:560px;height:1120px;filter:drop-shadow(0 20px 22px rgba(81,60,40,.19))}
   .memory-paper{position:absolute;top:52px;left:20px;width:520px;height:0;overflow:hidden;background:#fbf5e7;box-shadow:inset 0 0 38px rgba(177,137,83,.13);clip-path:polygon(2% 0,98% 1%,99% 13%,98% 27%,100% 43%,98% 61%,99% 79%,97% 100%,3% 99%,2% 86%,1% 69%,2% 51%,0 32%,2% 14%);transition:height 1.15s cubic-bezier(.2,.85,.2,1)}
   #memory-scroll.open .memory-paper{height:1002px}
@@ -15300,8 +15300,8 @@ html:not(.dbg-on) #stage { cursor: default !important; }
 <button id="volume-toggle" class="muted" aria-label="音量开关">
     <img id="vol-img" src="assets/分镜v1/素材/vol_muted.png" alt="音量">
   </button>
-<button id="home-toggle" aria-label="回首页">
-    <img src="assets/分镜v1/素材/首页.png" alt="回首页">
+<button id="home-toggle" aria-label="返回回忆卷轴" title="返回回忆卷轴">
+    <img src="assets/分镜v1/素材/首页.png" alt="返回回忆卷轴">
   </button>
 <div id="debug" style="position:absolute;top:12px;left:12px;color:rgba(255,255,0,0.7);font-size:11px;z-index:999;font-family:monospace;pointer-events:none;">scene:0</div>
 <div id="flashback-layer" aria-hidden="true"></div>
@@ -15316,7 +15316,6 @@ html:not(.dbg-on) #stage { cursor: default !important; }
 <div id="egg-prelude"><p>而真正的彩蛋即将出现！</p></div>
   <div id="egg-ending"><div class="egg-end-title">THE END</div></div>
   <div id="memory-scroll" aria-label="回忆卷轴"><div class="memory-scroll-body"><div class="memory-rod top"><i></i><b></b><i></i></div><div class="memory-paper"><div class="memory-items"></div></div><div class="memory-rod bottom"><i></i><b></b><i></i></div></div></div>
-  <button id="memory-return" type="button" aria-label="打开回忆卷轴">↩</button>
 </div>
 </div>
 <script src="assets/vendor/gsap.min.js"></script>
@@ -16383,7 +16382,7 @@ html:not(.dbg-on) #stage { cursor: default !important; }
   if (homeBtn) homeBtn.addEventListener('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
-    if (window.App && window.App.goAct) window.App.goAct(1, 0);
+    if (window.__memoryScrollUnlocked && typeof window.__showMemoryScroll === 'function') window.__showMemoryScroll();
   });
 
   // 对外暴露舞台尺寸，方便各幕读取
@@ -16535,13 +16534,16 @@ if(new URLSearchParams(location.search).get('autoflash')==='1')setTimeout(begin,
 </script>
 <script data-post-polaroid-extension>
 (function(){
-    var layer=document.getElementById('egg-layer'),prelude=document.getElementById('egg-prelude'),ending=document.getElementById('egg-ending'),scroll=document.getElementById('memory-scroll'),album=document.getElementById('egg-album'),returnBtn=document.getElementById('memory-return'),stage=document.getElementById('stage');
+    var layer=document.getElementById('egg-layer'),prelude=document.getElementById('egg-prelude'),ending=document.getElementById('egg-ending'),scroll=document.getElementById('memory-scroll'),album=document.getElementById('egg-album'),homeBtn=document.getElementById('home-toggle');
     if(!layer||!album)return;
     var next=document.createElement('button');next.id='egg-continue';next.type='button';next.textContent='继续';album.appendChild(next);
     // 需要点击的地方：屏幕中间的水波纹（烟花那屏用它代替文字提示）
     var ripple=document.createElement('div');ripple.className='tap-ripple';ripple.innerHTML='<i></i><i></i><i></i>';
     layer.appendChild(ripple);
-    stage.appendChild(returnBtn);
+    var unlockKey='hortensia-memory-scroll-unlocked-v1';
+    try{window.__memoryScrollUnlocked=localStorage.getItem(unlockKey)==='yes';}catch(e){window.__memoryScrollUnlocked=false;}
+    if(window.__memoryScrollUnlocked&&homeBtn)homeBtn.classList.add('unlocked');
+    function unlockScroll(){window.__memoryScrollUnlocked=true;try{localStorage.setItem(unlockKey,'yes');}catch(e){}if(homeBtn)homeBtn.classList.add('unlocked');}
     function stopEggMusic(){if(window.App&&App.music&&window.__eggSongs)App.music.stop(window.__eggSongs.candle,{fade:1.0,reset:true});}
     function releaseMusic(){if(window.App&&App.music&&App.music.hold)App.music.hold(false);}
     new MutationObserver(function(){if(album.classList.contains('egg-fw-ready'))ripple.classList.add('on');}).observe(album,{attributes:true,attributeFilter:['class']});
@@ -16549,12 +16551,11 @@ if(new URLSearchParams(location.search).get('autoflash')==='1')setTimeout(begin,
     var host=scroll.querySelector('.memory-items');points.forEach(function(p){var b=document.createElement('button');b.className='memory-dot';b.type='button';b.textContent=p[0];b.addEventListener('click',function(e){e.stopPropagation();layer.classList.remove('egg-on');scroll.classList.remove('on','open');if(p[2]==='flashback'&&window.__beginFlashback)window.__beginFlashback();else if(window.App){var scenes=App.manifestScenes(p[1]),i=scenes.indexOf(p[2]);if(i>=0)App.goAct(p[1],i);}});host.appendChild(b);});
     // 到这一句（「而真正的彩蛋即将出现！」）音乐就该停了：闪回曲一律收声、回到 0 秒
     window.__showEggPrelude=function(){var song=document.getElementById('ext-song');if(song){try{song.pause();song.currentTime=0;song.volume=0;}catch(e){}}releaseMusic();document.getElementById('flashback-layer').classList.remove('ext-on');layer.classList.add('egg-on');prelude.classList.add('on');setTimeout(function(){prelude.classList.remove('on');if(window.__showRealEgg)window.__showRealEgg();},2400);};
-    window.__showMemoryScroll=function(){releaseMusic();stopEggMusic();ripple.classList.remove('on');document.getElementById('stage').classList.remove('flashback-active');document.getElementById('flashback-layer').classList.remove('ext-on');layer.classList.add('egg-on');prelude.classList.remove('on');ending.classList.remove('on');next.classList.remove('on');returnBtn.classList.add('on');scroll.classList.add('on');requestAnimationFrame(function(){requestAnimationFrame(function(){scroll.classList.add('open');});});};
-    var original=window.__showRealEgg;window.__showRealEgg=function(){var song=document.getElementById('ext-song');if(song){if(window.App&&App.music)App.music.stop(song,{fade:0,reset:true});else{song.pause();song.currentTime=0;}}prelude.classList.remove('on');ending.classList.remove('on');scroll.classList.remove('on','open');next.classList.remove('on');returnBtn.classList.remove('on');original();};
+    window.__showMemoryScroll=function(){releaseMusic();stopEggMusic();ripple.classList.remove('on');document.getElementById('stage').classList.remove('flashback-active');document.getElementById('flashback-layer').classList.remove('ext-on');layer.classList.add('egg-on');prelude.classList.remove('on');ending.classList.remove('on');next.classList.remove('on');scroll.classList.add('on');requestAnimationFrame(function(){requestAnimationFrame(function(){scroll.classList.add('open');});});};
+    var original=window.__showRealEgg;window.__showRealEgg=function(){var song=document.getElementById('ext-song');if(song){if(window.App&&App.music)App.music.stop(song,{fade:0,reset:true});else{song.pause();song.currentTime=0;}}prelude.classList.remove('on');ending.classList.remove('on');scroll.classList.remove('on','open');next.classList.remove('on');original();};
     album.addEventListener('click',function(){if(album.classList.contains('egg-fw-ready')){ripple.classList.remove('on');setTimeout(function(){next.classList.add('on');},1800);}},{once:false});
     // 点「继续」进 THE END：生日蜡烛当场收声（淡出）
-    next.addEventListener('click',function(e){e.stopPropagation();stopEggMusic();next.classList.remove('on');ending.classList.add('on');setTimeout(function(){ending.classList.remove('on');returnBtn.classList.add('on');scroll.classList.add('on');requestAnimationFrame(function(){requestAnimationFrame(function(){scroll.classList.add('open');});});},1900);});
-    returnBtn.addEventListener('click',function(e){e.stopPropagation();window.__showMemoryScroll();});
+    next.addEventListener('click',function(e){e.stopPropagation();stopEggMusic();next.classList.remove('on');ending.classList.add('on');setTimeout(function(){unlockScroll();window.__showMemoryScroll();},1900);});
     scroll.addEventListener('click',function(){scroll.classList.toggle('open');});
   })();
 </script>
